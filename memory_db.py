@@ -148,17 +148,31 @@ class MemoryDB:
     def get_time_right_now(self):
         return datetime.now().isoformat()
 
+    def make_deep_copy(self, value):
+        return json.loads(json.dumps(value))
+
+    def merge_nested_data(self, base_value, override_value):
+        if isinstance(base_value, dict) and isinstance(override_value, dict):
+            merged = {key: self.make_deep_copy(value) for key, value in base_value.items()}
+            for key, value in override_value.items():
+                if key in merged:
+                    merged[key] = self.merge_nested_data(merged[key], value)
+                else:
+                    merged[key] = self.make_deep_copy(value)
+            return merged
+        return self.make_deep_copy(override_value)
+
     def turn_saved_json_into_python_data(self, raw_value, default):
         if not raw_value:
-            return json.loads(json.dumps(default))
+            return self.make_deep_copy(default)
         try:
             loaded = json.loads(raw_value)
         except (TypeError, json.JSONDecodeError):
-            return json.loads(json.dumps(default))
+            return self.make_deep_copy(default)
         if isinstance(default, dict) and not isinstance(loaded, dict):
-            return json.loads(json.dumps(default))
+            return self.make_deep_copy(default)
         if isinstance(default, list) and not isinstance(loaded, list):
-            return json.loads(json.dumps(default))
+            return self.make_deep_copy(default)
         return loaded
 
     def turn_python_data_into_json_text(self, value):
@@ -220,7 +234,7 @@ class MemoryDB:
             for component in components
         ]
         return {
-            **json.loads(json.dumps(DEFAULT_ARTIFACTS)),
+            **self.make_deep_copy(DEFAULT_ARTIFACTS),
             "bom": bom,
             "build_steps": [line.strip("- ").strip() for line in response.splitlines() if line.strip()][:8],
             "compatibility_notes": ["Legacy project imported from V1 free-form plan."],
@@ -241,7 +255,7 @@ class MemoryDB:
         timestamp = self.get_time_right_now()
         profile = {**DEFAULT_PROFILE, **(project_profile or {})}
         inputs_payload = inputs_json or {}
-        artifacts_payload = {**json.loads(json.dumps(DEFAULT_ARTIFACTS)), **(artifacts_json or {})}
+        artifacts_payload = self.merge_nested_data(DEFAULT_ARTIFACTS, artifacts_json or {})
         with self.open_database_connection_for_memory() as conn:
             cursor = conn.cursor()
             cursor.execute(
@@ -283,10 +297,9 @@ class MemoryDB:
         timestamp = self.get_time_right_now()
         profile = {**current["project_profile"], **(project_profile or {})}
         inputs_payload = {**current["inputs_json"], **(inputs_json or {})}
-        artifacts_payload = json.loads(json.dumps(DEFAULT_ARTIFACTS))
-        artifacts_payload.update(current["artifacts_json"])
+        artifacts_payload = self.merge_nested_data(DEFAULT_ARTIFACTS, current["artifacts_json"])
         if artifacts_json:
-            artifacts_payload.update(artifacts_json)
+            artifacts_payload = self.merge_nested_data(artifacts_payload, artifacts_json)
         with self.open_database_connection_for_memory() as conn:
             cursor = conn.cursor()
             cursor.execute(
