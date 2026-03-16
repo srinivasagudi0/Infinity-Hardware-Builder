@@ -1,0 +1,405 @@
+{
+  "id": 1,
+  "project_name": "Smart Light",
+  "components": "Arduino, LED strip, relay module",
+  "project_purpose": "Home automation",
+  "specific_requirements": "Wifi controlled, mobile app",
+  "response": "# Smart Light\n\nTemplate: home automation\nPurpose: Home automation\nSkill level: beginner\nBudget mode: mid\n\n## Summary\nBuild a system around Arduino, LED strip, relay module and satisfy: Wifi controlled, mobile app.\n\n## Build Steps\n- Review the home automation requirements and confirm the goal: Home automation.\n- Lay out the controller, power path, and peripherals before wiring anything.\n- Wire one component at a time and test each connection before adding the next part.\n- Load a minimal firmware sketch or script to verify communication with each module.\n- Integrate the full workflow and test against the main success criteria.\n\n## Safety\n- Validate current draw before powering motors, relays, or heating elements.\n- Do not connect 5V outputs directly into 3.3V-only inputs without level shifting.\n\n## Validation\n- Power-on smoke test passes without overheating.\n- Each sensor or actuator responds independently.\n- The final workflow matches the intended project purpose.\n- The build remains stable for at least 15 minutes of continuous operation.\n\nRevision note: moved to enclosure planning.",
+  "timestamp": "2026-03-15T17:02:48.276648",
+  "project_profile": {
+    "budget_mode": "mid",
+    "name": "Smart Light",
+    "purpose": "Home automation",
+    "skill_level": "beginner",
+    "status": "in progress",
+    "tags": [
+      "lighting",
+      "wifi"
+    ],
+    "template_type": "home automation"
+  },
+  "inputs_json": {
+    "clarification_answers": {
+      "Need offline fallback?": "Yes"
+    },
+    "components": "Arduino, LED strip, relay module",
+    "constraints": "Indoor only",
+    "specific_requirements": "Wifi controlled, mobile app"
+  },
+  "artifacts_json": {
+    "bom": [
+      {
+        "name": "Arduino",
+        "purchase_link": "",
+        "quantity": 1,
+        "source_note": "AI-estimated local fallback cost.",
+        "total_cost_estimate": 18.0,
+        "unit_cost_estimate": 18.0
+      },
+      {
+        "name": "LED strip",
+        "purchase_link": "",
+        "quantity": 1,
+        "source_note": "AI-estimated local fallback cost.",
+        "total_cost_estimate": 10.0,
+        "unit_cost_estimate": 10.0
+      },
+      {
+        "name": "relay module",
+        "purchase_link": "",
+        "quantity": 1,
+        "source_note": "AI-estimated local fallback cost.",
+        "total_cost_estimate": 6.0,
+        "unit_cost_estimate": 6.0
+      }
+    ],
+    "build_steps": [
+      "Review the home automation requirements and confirm the goal: Home automation.",
+      "Lay out the controller, power path, and peripherals before wiring anything.",
+      "Wire one component at a time and test each connection before adding the next part.",
+      "Load a minimal firmware sketch or script to verify communication with each module.",
+      "Integrate the full workflow and test against the main success criteria."
+    ],
+    "compatibility_notes": [
+      "Template selected: home automation. Keep component selection aligned with Home automation.",
+      "Specific requirements to preserve: Wifi controlled, mobile app"
+    ],
+    "estimated_cost": {
+      "currency": "USD",
+      "notes": "Estimated locally without live retailer pricing.",
+      "total": 34.0
+    },
+    "power_checks": [
+      {
+        "details": "Verify the controller regulator can supply every peripheral or add a dedicated power rail.",
+        "status": "warning",
+        "title": "System power budget"
+      }
+    ],
+    "resources": [
+      {
+        "notes": "Review voltage and current limits.",
+        "title": "Controller datasheet",
+        "url": ""
+      },
+      {
+        "notes": "Use during final integration.",
+        "title": "Project assembly checklist",
+        "url": ""
+      }
+    ],
+    "safety_warnings": [
+      "Validate current draw before powering motors, relays, or heating elements.",
+      "Do not connect 5V outputs directly into 3.3V-only inputs without level shifting."
+    ],
+    "suggested_follow_ups": [
+      "Can you optimize this bill of materials for a tighter budget?",
+      "Can you turn the wiring plan into a pin-by-pin checklist?",
+      "What are the main risks or failure points in this design?"
+    ],
+    "testing_checklist": [
+      "Power-on smoke test passes without overheating.",
+      "Each sensor or actuator responds independently.",
+      "The final workflow matches the intended project purpose.",
+      "The build remains stable for at least 15 minutes of continuous operation."
+    ],
+    "tools": [
+      "Breadboard",
+      "Jumper wires",
+      "USB cable",
+      "Multimeter"
+    ],
+    "wiring_plan": [
+      {
+        "from": "Arduino",
+        "notes": "Confirm voltage compatibility before connecting LED strip.",
+        "signal": "GPIO / data",
+        "to": "LED strip"
+      },
+      {
+        "from": "Arduino",
+        "notes": "Confirm voltage compatibility before connecting relay module.",
+        "signal": "GPIO / data",
+        "to": "relay module"
+      }
+    ]
+  },
+  "narrative_plan": "# Smart Light\n\nTemplate: home automation\nPurpose: Home automation\nSkill level: beginner\nBudget mode: mid\n\n## Summary\nBuild a system around Arduino, LED strip, relay module and satisfy: Wifi controlled, mobile app.\n\n## Build Steps\n- Review the home automation requirements and confirm the goal: Home automation.\n- Lay out the controller, power path, and peripherals before wiring anything.\n- Wire one component at a time and test each connection before adding the next part.\n- Load a minimal firmware sketch or script to verify communication with each module.\n- Integrate the full workflow and test against the main success criteria.\n\n## Safety\n- Validate current draw before powering motors, relays, or heating elements.\n- Do not connect 5V outputs directly into 3.3V-only inputs without level shifting.\n\n## Validation\n- Power-on smoke test passes without overheating.\n- Each sensor or actuator responds independently.\n- The final workflow matches the intended project purpose.\n- The build remains stable for at least 15 minutes of continuous operation.\n\nRevision note: moved to enclosure planning.",
+  "revision_number": 2,
+  "parent_revision_id": 1,
+  "updated_at": "2026-03-15T17:02:48.282624",
+  "status": "in progress",
+  "template_type": "home automation",
+  "tags": [
+    "lighting",
+    "wifi"
+  ],
+  "attachments": [
+    {
+      "id": 1,
+      "project_id": 1,
+      "revision_id": null,
+      "original_name": "datasheet.txt",
+      "stored_path": "test_project_files/project_1/20260315170248279325_datasheet.txt",
+      "mime_type": "text/plain",
+      "note": "Relay datasheet excerpt",
+      "uploaded_at": "2026-03-15T17:02:48.279575"
+    }
+  ],
+  "revision_history": [
+    {
+      "id": 1,
+      "project_id": 1,
+      "revision_number": 1,
+      "parent_revision_id": null,
+      "project_profile": {
+        "budget_mode": "mid",
+        "name": "Smart Light",
+        "purpose": "Home automation",
+        "skill_level": "beginner",
+        "status": "planned",
+        "tags": [
+          "lighting",
+          "wifi"
+        ],
+        "template_type": "home automation"
+      },
+      "inputs_json": {
+        "clarification_answers": {
+          "Need offline fallback?": "Yes"
+        },
+        "components": "Arduino, LED strip, relay module",
+        "constraints": "Must fit in a wall box",
+        "specific_requirements": "Wifi controlled, mobile app"
+      },
+      "artifacts_json": {
+        "bom": [
+          {
+            "name": "Arduino",
+            "purchase_link": "",
+            "quantity": 1,
+            "source_note": "AI-estimated local fallback cost.",
+            "total_cost_estimate": 18.0,
+            "unit_cost_estimate": 18.0
+          },
+          {
+            "name": "LED strip",
+            "purchase_link": "",
+            "quantity": 1,
+            "source_note": "AI-estimated local fallback cost.",
+            "total_cost_estimate": 10.0,
+            "unit_cost_estimate": 10.0
+          },
+          {
+            "name": "relay module",
+            "purchase_link": "",
+            "quantity": 1,
+            "source_note": "AI-estimated local fallback cost.",
+            "total_cost_estimate": 6.0,
+            "unit_cost_estimate": 6.0
+          }
+        ],
+        "build_steps": [
+          "Review the home automation requirements and confirm the goal: Home automation.",
+          "Lay out the controller, power path, and peripherals before wiring anything.",
+          "Wire one component at a time and test each connection before adding the next part.",
+          "Load a minimal firmware sketch or script to verify communication with each module.",
+          "Integrate the full workflow and test against the main success criteria."
+        ],
+        "compatibility_notes": [
+          "Template selected: home automation. Keep component selection aligned with Home automation.",
+          "Specific requirements to preserve: Wifi controlled, mobile app"
+        ],
+        "estimated_cost": {
+          "currency": "USD",
+          "notes": "Estimated locally without live retailer pricing.",
+          "total": 34.0
+        },
+        "power_checks": [
+          {
+            "details": "Verify the controller regulator can supply every peripheral or add a dedicated power rail.",
+            "status": "warning",
+            "title": "System power budget"
+          }
+        ],
+        "resources": [
+          {
+            "notes": "Review voltage and current limits.",
+            "title": "Controller datasheet",
+            "url": ""
+          },
+          {
+            "notes": "Use during final integration.",
+            "title": "Project assembly checklist",
+            "url": ""
+          }
+        ],
+        "safety_warnings": [
+          "Validate current draw before powering motors, relays, or heating elements.",
+          "Do not connect 5V outputs directly into 3.3V-only inputs without level shifting."
+        ],
+        "suggested_follow_ups": [
+          "Can you optimize this bill of materials for a tighter budget?",
+          "Can you turn the wiring plan into a pin-by-pin checklist?",
+          "What are the main risks or failure points in this design?"
+        ],
+        "testing_checklist": [
+          "Power-on smoke test passes without overheating.",
+          "Each sensor or actuator responds independently.",
+          "The final workflow matches the intended project purpose.",
+          "The build remains stable for at least 15 minutes of continuous operation."
+        ],
+        "tools": [
+          "Breadboard",
+          "Jumper wires",
+          "USB cable",
+          "Multimeter"
+        ],
+        "wiring_plan": [
+          {
+            "from": "Arduino",
+            "notes": "Confirm voltage compatibility before connecting LED strip.",
+            "signal": "GPIO / data",
+            "to": "LED strip"
+          },
+          {
+            "from": "Arduino",
+            "notes": "Confirm voltage compatibility before connecting relay module.",
+            "signal": "GPIO / data",
+            "to": "relay module"
+          }
+        ]
+      },
+      "narrative_plan": "# Smart Light\n\nTemplate: home automation\nPurpose: Home automation\nSkill level: beginner\nBudget mode: mid\n\n## Summary\nBuild a system around Arduino, LED strip, relay module and satisfy: Wifi controlled, mobile app.\n\n## Build Steps\n- Review the home automation requirements and confirm the goal: Home automation.\n- Lay out the controller, power path, and peripherals before wiring anything.\n- Wire one component at a time and test each connection before adding the next part.\n- Load a minimal firmware sketch or script to verify communication with each module.\n- Integrate the full workflow and test against the main success criteria.\n\n## Safety\n- Validate current draw before powering motors, relays, or heating elements.\n- Do not connect 5V outputs directly into 3.3V-only inputs without level shifting.\n\n## Validation\n- Power-on smoke test passes without overheating.\n- Each sensor or actuator responds independently.\n- The final workflow matches the intended project purpose.\n- The build remains stable for at least 15 minutes of continuous operation.",
+      "change_summary": "Initial plan",
+      "created_at": "2026-03-15T17:02:48.278175"
+    },
+    {
+      "id": 2,
+      "project_id": 1,
+      "revision_number": 2,
+      "parent_revision_id": 1,
+      "project_profile": {
+        "budget_mode": "mid",
+        "name": "Smart Light",
+        "purpose": "Home automation",
+        "skill_level": "beginner",
+        "status": "in progress",
+        "tags": [
+          "lighting",
+          "wifi"
+        ],
+        "template_type": "home automation"
+      },
+      "inputs_json": {
+        "clarification_answers": {
+          "Need offline fallback?": "Yes"
+        },
+        "components": "Arduino, LED strip, relay module",
+        "constraints": "Indoor only",
+        "specific_requirements": "Wifi controlled, mobile app"
+      },
+      "artifacts_json": {
+        "bom": [
+          {
+            "name": "Arduino",
+            "purchase_link": "",
+            "quantity": 1,
+            "source_note": "AI-estimated local fallback cost.",
+            "total_cost_estimate": 18.0,
+            "unit_cost_estimate": 18.0
+          },
+          {
+            "name": "LED strip",
+            "purchase_link": "",
+            "quantity": 1,
+            "source_note": "AI-estimated local fallback cost.",
+            "total_cost_estimate": 10.0,
+            "unit_cost_estimate": 10.0
+          },
+          {
+            "name": "relay module",
+            "purchase_link": "",
+            "quantity": 1,
+            "source_note": "AI-estimated local fallback cost.",
+            "total_cost_estimate": 6.0,
+            "unit_cost_estimate": 6.0
+          }
+        ],
+        "build_steps": [
+          "Review the home automation requirements and confirm the goal: Home automation.",
+          "Lay out the controller, power path, and peripherals before wiring anything.",
+          "Wire one component at a time and test each connection before adding the next part.",
+          "Load a minimal firmware sketch or script to verify communication with each module.",
+          "Integrate the full workflow and test against the main success criteria."
+        ],
+        "compatibility_notes": [
+          "Template selected: home automation. Keep component selection aligned with Home automation.",
+          "Specific requirements to preserve: Wifi controlled, mobile app"
+        ],
+        "estimated_cost": {
+          "currency": "USD",
+          "notes": "Estimated locally without live retailer pricing.",
+          "total": 34.0
+        },
+        "power_checks": [
+          {
+            "details": "Verify the controller regulator can supply every peripheral or add a dedicated power rail.",
+            "status": "warning",
+            "title": "System power budget"
+          }
+        ],
+        "resources": [
+          {
+            "notes": "Review voltage and current limits.",
+            "title": "Controller datasheet",
+            "url": ""
+          },
+          {
+            "notes": "Use during final integration.",
+            "title": "Project assembly checklist",
+            "url": ""
+          }
+        ],
+        "safety_warnings": [
+          "Validate current draw before powering motors, relays, or heating elements.",
+          "Do not connect 5V outputs directly into 3.3V-only inputs without level shifting."
+        ],
+        "suggested_follow_ups": [
+          "Can you optimize this bill of materials for a tighter budget?",
+          "Can you turn the wiring plan into a pin-by-pin checklist?",
+          "What are the main risks or failure points in this design?"
+        ],
+        "testing_checklist": [
+          "Power-on smoke test passes without overheating.",
+          "Each sensor or actuator responds independently.",
+          "The final workflow matches the intended project purpose.",
+          "The build remains stable for at least 15 minutes of continuous operation."
+        ],
+        "tools": [
+          "Breadboard",
+          "Jumper wires",
+          "USB cable",
+          "Multimeter"
+        ],
+        "wiring_plan": [
+          {
+            "from": "Arduino",
+            "notes": "Confirm voltage compatibility before connecting LED strip.",
+            "signal": "GPIO / data",
+            "to": "LED strip"
+          },
+          {
+            "from": "Arduino",
+            "notes": "Confirm voltage compatibility before connecting relay module.",
+            "signal": "GPIO / data",
+            "to": "relay module"
+          }
+        ]
+      },
+      "narrative_plan": "# Smart Light\n\nTemplate: home automation\nPurpose: Home automation\nSkill level: beginner\nBudget mode: mid\n\n## Summary\nBuild a system around Arduino, LED strip, relay module and satisfy: Wifi controlled, mobile app.\n\n## Build Steps\n- Review the home automation requirements and confirm the goal: Home automation.\n- Lay out the controller, power path, and peripherals before wiring anything.\n- Wire one component at a time and test each connection before adding the next part.\n- Load a minimal firmware sketch or script to verify communication with each module.\n- Integrate the full workflow and test against the main success criteria.\n\n## Safety\n- Validate current draw before powering motors, relays, or heating elements.\n- Do not connect 5V outputs directly into 3.3V-only inputs without level shifting.\n\n## Validation\n- Power-on smoke test passes without overheating.\n- Each sensor or actuator responds independently.\n- The final workflow matches the intended project purpose.\n- The build remains stable for at least 15 minutes of continuous operation.\n\nRevision note: moved to enclosure planning.",
+      "change_summary": "Moved to enclosure planning",
+      "created_at": "2026-03-15T17:02:48.284114"
+    }
+  ]
+}
