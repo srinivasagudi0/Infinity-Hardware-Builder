@@ -67,7 +67,7 @@ def set_up_streamlit_page_state():
     st.session_state.setdefault("selected_project_id", None)
     st.session_state.setdefault("draft_profile", make_blank_project_profile())
     st.session_state.setdefault("draft_inputs", make_blank_project_inputs())
-    st.session_state.setdefault("dark_mode_on", False)
+    st.session_state.setdefault("dark_mode_on", True)
 
 
 def paint_the_page_with_better_colors_and_layout():
@@ -384,7 +384,7 @@ def make_sidebar_project_label(project):
 def show_sidebar_project_shelf():
     st.sidebar.markdown("## Project Shelf")
     st.sidebar.caption("Keep the left side compact. Open a project or start fresh.")
-    st.session_state.dark_mode_on = st.sidebar.toggle("Dark mode", value=st.session_state.get("dark_mode_on", False))
+    #st.session_state.dark_mode_on = st.sidebar.toggle("Dark mode", value=st.session_state.get("dark_mode_on", False))
 
     search_text = st.sidebar.text_input("Search")
     status_filter = st.sidebar.selectbox("Status", ["All"] + STATUSES)
