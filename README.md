@@ -1,19 +1,23 @@
 # Jarvis Hardware Builder
 
-Jarvis Hardware Builder is a hardware planning assistant with a CLI, a Streamlit UI, structured project memory, revision history, file attachments, and exportable project plans. I plan to add moore in future if possible.
+Jarvis Hardware Builder is a hardware planning assistant that helps you design structured hardware projects. It provides a CLI, a Streamlit UI, persistent project memory, revision history, file attachments, and exportable plans.
+
+---
 
 ## Features
 
-- Builds hardware plans from structured project inputs
-- Ask follow-up questions against saved project context
-- Save projects in SQLite with revisions, tags, and attachments
-- Export projects as JSON, Markdown, and PDF
-- Fall back to a local plan generator when no OpenAI API key is available
-- A good UI for easier workflow and asthetics.
+- Generate hardware plans from structured inputs  
+- Ask follow-up questions using saved project context  
+- Store projects in SQLite with revisions, tags, and attachments  
+- Export plans as JSON, Markdown, and PDF  
+- Local fallback plan generator when no OpenAI API key is available  
+- Clean Streamlit UI for better workflow  
+
+---
 
 ## Project Structure
 
-```text
+```
 .
 ├── agent.py
 ├── exporter.py
@@ -25,10 +29,16 @@ Jarvis Hardware Builder is a hardware planning assistant with a CLI, a Streamlit
 └── requirements.txt
 ```
 
+---
+
 ## Requirements
 
 - Python 3.9+
-- `OPENAI_API_KEY` if you want model-backed responses. FYI the default model is set to `gpt-4o`.
+- OpenAI API key (optional)
+
+Default model: `gpt-4o`
+
+---
 
 ## Installation
 
@@ -38,9 +48,11 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
+---
+
 ## Configuration
 
-Required for AI responses:
+Set your OpenAI API key:
 
 ```bash
 export OPENAI_API_KEY="your_api_key_here"
@@ -48,58 +60,70 @@ export OPENAI_API_KEY="your_api_key_here"
 
 Optional environment variables:
 
-- `OPENAI_MODEL`: defaults to `gpt-4o`
-- `MEMORY_DB_PATH`: defaults to `memory.db`
-- `PROJECT_FILES_DIR`: defaults to `project_files`
-- `EXPORT_DIR`: defaults to `exports`
+```bash
+OPENAI_MODEL=gpt-4o
+MEMORY_DB_PATH=memory.db
+PROJECT_FILES_DIR=project_files
+EXPORT_DIR=exports
+```
 
-## Run
+---
 
-CLI:
+## Usage
+
+### CLI
 
 ```bash
 python main.py
 ```
 
-Streamlit:
+### Streamlit UI
 
 ```bash
 streamlit run streamlit_ui.py
 ```
 
+---
+
+## How It Works
+
+1. Enter project details (requirements, budget, goals)  
+2. The agent generates:
+   - Bill of Materials (BOM)
+   - Wiring plan
+   - Safety checks
+   - Cost estimate  
+3. The project is saved with revision history  
+4. You can ask follow-ups, update the project, or export results  
+
+If no API key is provided, a local fallback generator is used.
+
+---
+
 ## Data Model
 
-SQLite stores project state in these tables:
+SQLite tables:
 
-- `projects`
-- `project_revisions`
-- `follow_ups`
-- `attachments`
-- `project_tags`
+- projects  
+- project_revisions  
+- follow_ups  
+- attachments  
+- project_tags  
 
-Saved project records include:
+Each project includes inputs, generated plans, history, revisions, and file metadata.
 
-- Project profile and structured inputs
-- Structured artifacts such as BOM, wiring plan, safety checks, and estimated cost to make everything work in one space.
-- Plan text easy to understand and great for beginner and experts
-- Follow-up history
-- Revision snapshots
-- Uploaded file metadata
+---
 
 ## Testing
-
-Run:
 
 ```bash
 python test_memory.py
 python test_agent_contract.py
 ```
 
-The tests cover persistence, revision history, attachment storage, exports, legacy migration, and the agent contract.
+---
 
 ## Notes
 
-- The OpenAI client uses the modern SDK when available and falls back to the older compatibility path otherwise.
-- When AI output is unavailable or invalid, the app generates a local structured fallback plan instead of failing.
-
-Thanks for reading the README! ✌️
+- Uses modern OpenAI SDK when available  
+- Falls back to a local generator if AI is unavailable  
