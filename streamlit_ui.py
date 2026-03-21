@@ -647,6 +647,20 @@ def make_bom_csv_text(project):
     return output.getvalue()
 
 
+def get_export_cache_marker(project):
+    return f"{project.get('revision_number', 1)}::{project.get('updated_at', '')}"
+
+
+def ensure_export_paths(project):
+    export_key = f"ready_exports_{project['id']}"
+    marker_key = f"ready_exports_marker_{project['id']}"
+    current_marker = get_export_cache_marker(project)
+    if st.session_state.get(marker_key) != current_marker or export_key not in st.session_state:
+        st.session_state[export_key] = export_project_in_every_format(project)
+        st.session_state[marker_key] = current_marker
+    return st.session_state[export_key]
+
+
 def show_preview_panel_when_no_project_exists():
     st.markdown(
         """
@@ -715,22 +729,29 @@ def show_preview_sections(project):
 
 
 def show_export_buttons(project):
-    export_paths = st.session_state.get(f"ready_exports_{project['id']}")
+    st.info("Download the current saved revision as PDF, Markdown, or CSV here. If you just saved a new revision, click Refresh exports first.")
+
+    try:
+        export_paths = ensure_export_paths(project)
+    except Exception as exc:
+        st.error(f"Could not generate exports: {exc}")
+        return
+
     export_columns = st.columns(4)
-    if export_columns[0].button("Generate exports", key=f"generate_exports_{project['id']}", use_container_width=True):
-        st.session_state[f"ready_exports_{project['id']}"] = export_project_in_every_format(project)
-        export_paths = st.session_state[f"ready_exports_{project['id']}"]
-        st.rerun()
-    if export_paths:
-        with open(export_paths["pdf"], "rb") as file_handle:
-            export_columns[1].download_button("PDF", data=file_handle.read(), file_name=export_paths["pdf"].name, mime="application/pdf", use_container_width=True)
-        with open(export_paths["markdown"], "rb") as file_handle:
-            export_columns[2].download_button("Markdown", data=file_handle.read(), file_name=export_paths["markdown"].name, mime="text/markdown", use_container_width=True)
-        export_columns[3].download_button("BOM CSV", data=make_bom_csv_text(project), file_name=f"{project['project_name']}_bom.csv", mime="text/csv", use_container_width=True)
-    else:
-        export_columns[1].button("PDF", disabled=True, use_container_width=True)
-        export_columns[2].button("Markdown", disabled=True, use_container_width=True)
-        export_columns[3].button("BOM CSV", disabled=True, use_container_width=True)
+    if export_columns[0].button("Refresh exports", key=f"refresh_exports_{project['id']}", use_container_width=True):
+        try:
+            st.session_state[f"ready_exports_{project['id']}"] = export_project_in_every_format(project)
+            st.session_state[f"ready_exports_marker_{project['id']}"] = get_export_cache_marker(project)
+            st.rerun()
+        except Exception as exc:
+            st.error(f"Could not refresh exports: {exc}")
+            return
+
+    with open(export_paths["pdf"], "rb") as file_handle:
+        export_columns[1].download_button("PDF", data=file_handle.read(), file_name=export_paths["pdf"].name, mime="application/pdf", use_container_width=True)
+    with open(export_paths["markdown"], "rb") as file_handle:
+        export_columns[2].download_button("Markdown", data=file_handle.read(), file_name=export_paths["markdown"].name, mime="text/markdown", use_container_width=True)
+    export_columns[3].download_button("BOM CSV", data=make_bom_csv_text(project), file_name=f"{project['project_name']}_bom.csv", mime="text/csv", use_container_width=True)
 
 
 def show_follow_up_tab(project):
@@ -765,7 +786,8 @@ def show_follow_up_tab(project):
 
 def show_live_build_preview_panel(project):
     show_live_preview_summary(project)
-    preview_tabs = st.tabs(["Preview", "Narrative", "Exports", "Follow-ups"])
+    show_export_buttons(project)
+    preview_tabs = st.tabs(["Preview", "Narrative", "Follow-ups"])
     with preview_tabs[0]:
         show_preview_sections(project)
     with preview_tabs[1]:
@@ -773,8 +795,6 @@ def show_live_build_preview_panel(project):
         st.markdown(project.get("narrative_plan", ""))
         st.markdown("</div>", unsafe_allow_html=True)
     with preview_tabs[2]:
-        show_export_buttons(project)
-    with preview_tabs[3]:
         show_follow_up_tab(project)
 
 
