@@ -1,0 +1,14 @@
+.DS_Store
+.idea/
+__pycache__/
+*.py[cod]
+
+.env
+.env.*
+.streamlit/secrets.toml
+
+*.db
+exports/
+project_files/
+test_project_files/
+*_plan.txt
