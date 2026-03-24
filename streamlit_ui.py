@@ -1,7 +1,4 @@
-import csv
-import io
 import os
-from pathlib import Path
 
 import streamlit as st
 
@@ -14,7 +11,7 @@ from agent import (
     build_full_project_plan,
     make_clarification_questions_for_project,
 )
-from exporter import export_project_in_every_format
+from exporter import export_project_in_every_format, make_bom_csv_text
 from memory_db import MemoryDB
 
 
@@ -633,18 +630,6 @@ def show_main_builder_panel():
         reset_the_draft_workspace()
         st.rerun()
     st.markdown("</div>", unsafe_allow_html=True)
-
-
-def make_bom_csv_text(project):
-    output = io.StringIO()
-    writer = csv.DictWriter(
-        output,
-        fieldnames=["name", "quantity", "unit_cost_estimate", "total_cost_estimate", "purchase_link", "source_note"],
-    )
-    writer.writeheader()
-    for item in project["artifacts_json"].get("bom", []):
-        writer.writerow(item)
-    return output.getvalue()
 
 
 def get_export_cache_marker(project):
