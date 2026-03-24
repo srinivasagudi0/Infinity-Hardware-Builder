@@ -5,6 +5,8 @@ import sqlite3
 from datetime import datetime
 from pathlib import Path
 
+from agent import parse_component_entries
+
 
 DEFAULT_ARTIFACTS = {
     "bom": [],
@@ -221,7 +223,7 @@ class MemoryDB:
 
     def build_old_style_artifacts_for_project(self, project):
         response = project.get("response") or ""
-        components = [item.strip() for item in (project.get("components") or "").split(",") if item.strip()]
+        components = parse_component_entries(project.get("components") or "", use_defaults=True)
         bom = [
             {
                 "name": component,
