@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from copy import deepcopy
 
 try:
@@ -37,6 +38,37 @@ DEFAULT_ARTIFACTS = {
     "compatibility_notes": [],
     "estimated_cost": {"currency": "USD", "total": 0.0, "notes": ""},
 }
+
+_BULLET_PREFIX_RE = re.compile(r"^\s*(?:[-*•·]|\d+[.)])\s*")
+
+
+def _clean_component_entry(entry):
+    return _BULLET_PREFIX_RE.sub("", str(entry or "")).strip()
+
+
+def parse_component_entries(components_text, use_defaults=False):
+    raw_text = (components_text or "").strip()
+    if not raw_text:
+        return ["Microcontroller", "Power supply", "Mounting hardware"] if use_defaults else []
+
+    if "\n" in raw_text:
+        pieces = []
+        for line in raw_text.replace("\r\n", "\n").replace("\r", "\n").split("\n"):
+            cleaned_line = _clean_component_entry(line)
+            if not cleaned_line:
+                continue
+            for part in re.split(r"[;|]+", cleaned_line):
+                cleaned_part = _clean_component_entry(part)
+                if cleaned_part:
+                    pieces.append(cleaned_part)
+        return pieces or (["Microcontroller", "Power supply", "Mounting hardware"] if use_defaults else [])
+
+    pieces = []
+    for part in re.split(r"[,\;|]+", raw_text):
+        cleaned_part = _clean_component_entry(part)
+        if cleaned_part:
+            pieces.append(cleaned_part)
+    return pieces or (["Microcontroller", "Power supply", "Mounting hardware"] if use_defaults else [])
 
 
 def normalize_artifacts_payload(artifacts):
@@ -79,7 +111,7 @@ def ask_openai_for_chat_response(messages, model=DEFAULT_MODEL):
 
 def make_clarification_questions_for_project(project_profile, inputs_json):
     questions = []
-    if len((inputs_json.get("components") or "").split(",")) < 2:
+    if len(parse_component_entries(inputs_json.get("components"), use_defaults=False)) < 2:
         questions.append("What controller, sensors, or actuators do you already have in mind?")
     if not (inputs_json.get("constraints") or "").strip():
         questions.append("Are there power, size, portability, or connectivity constraints?")
@@ -91,8 +123,7 @@ def make_clarification_questions_for_project(project_profile, inputs_json):
 
 
 def break_components_into_list(components_text):
-    components = [item.strip() for item in (components_text or "").split(",") if item.strip()]
-    return components or ["Microcontroller", "Power supply", "Mounting hardware"]
+    return parse_component_entries(components_text, use_defaults=True)
 
 
 def guess_unit_cost_for_component(name, budget_mode):
